@@ -56,20 +56,8 @@ namespace HallOfFame
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
-                //ErrorController.HttpStatusCodeHandler(200);
-                
-
+            {           
                 app.UseDeveloperExceptionPage();
-                
-                //app.UseExceptionHandler(appBuilder =>
-                //{
-                //    appBuilder.Run(async c =>
-                //    {
-                //        var statusCode = c.Response.StatusCode;
-                //        await c.Response.WriteAsync(ErrorController.HttpStatusCodeHandler(statusCode));
-                //    });
-                //});
             }
             else
             {

@@ -1,10 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace HallOfFame.Controllers
 {
@@ -29,7 +23,7 @@ namespace HallOfFame.Controllers
                     _message = $"{statusCode} - сущность не найдена в системе.";
                     break;
                 case 500:
-                    _message = $"{statusCode} - сущность не найдена в системе.";
+                    _message = $"{statusCode} - серверная ошибка";
                     break;
                 default:
                     _message = $"{statusCode} - ошибка не детализирована.";

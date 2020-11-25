@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 using HallOfFame.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace HallOfFame.Controllers
 {
@@ -22,51 +19,92 @@ namespace HallOfFame.Controllers
         }
 
         // GET api/persons
-        [HttpGet("api/persons")]
-        public ActionResult<Array> Get()
+        [HttpGet("api/v1/persons")]
+        public List<Person> Get()
         {
-            var persons = _ctx.Persons.Select(x => x.Name).ToArray();
+            var persons = _ctx.Persons.Include(x => x.Skills).ToList();
 
             return persons;
         }
 
         // GET api/person/id
-        [HttpGet("api/person/{id}")]
-        public Person Get(long id)
+        [HttpGet("api/v1/person/{id}")]
+        public ActionResult Get(long id)
         {
-            var person = _ctx.Persons.FirstOrDefault(x => x.Id == id);            
+            var person = _ctx.Persons.Include(x => x.Skills).FirstOrDefault(x => x.Id == id);
 
-            return person;
+            if (person == null)
+            {
+                throw new HttpListenerException(404,
+                    ErrorController.HttpStatusCodeHandler(404));
+            }
+
+            return Ok(person);
         }
 
         // POST api/person
-        [HttpPost("api/person")]
+        [HttpPost("api/v1/person")]
         public void Post([FromBody] Person person)
         {
             _ctx.Persons.Add(person);
+
             _ctx.SaveChanges();
         }
         
         // PUT api/person/id
-        [HttpPut("api/person/{id}")]
+        [HttpPut("api/v1/person/{id}")]
         public void Put(long id, [FromBody] Person person)
         {
             var personExist = _ctx.Persons.FirstOrDefault(x => x.Id == id);
+
+            if (personExist == null)
+            {
+                throw new HttpListenerException(404,
+                    ErrorController.HttpStatusCodeHandler(404));
+            }
 
             if (personExist != null)
             {
                 personExist.Name = person.Name;
                 personExist.DisplayName = person.DisplayName;
+
+                var skillsExist = _ctx.Skills.Where(x => x.PersonId == id).ToList();
+                var skillsNew = person.Skills.ToList();
+
+                var iMax = Math.Max(skillsExist.Count(), skillsNew.Count());
+                for (int i = 0; i < iMax; i++)
+                {
+                    if (skillsNew.Count() - 1 < i)
+                    {
+                        _ctx.Skills.Remove(skillsExist[i]);
+                        continue;
+                    }
+                    if (skillsExist.Count() - 1 < i)
+                    {
+                        skillsNew[i].PersonId = id;
+                        _ctx.Skills.Add(skillsNew[i]);
+                        continue;
+                    }
+
+                    skillsExist[i].Name = skillsNew[i].Name;
+                    skillsExist[i].Level = skillsNew[i].Level;
+                }
             }
             
             _ctx.SaveChanges();
         }
 
         // DELETE api/person/id
-        [HttpDelete("api/person/{id}")]
+        [HttpDelete("api/v1/person/{id}")]
         public void Delete(long id)
         {
             var person = _ctx.Persons.FirstOrDefault(x => x.Id == id);
+
+            if (person == null)
+            {
+                throw new HttpListenerException(404, 
+                    ErrorController.HttpStatusCodeHandler(404));
+            }
 
             var skills = _ctx.Skills.Where(x => x.PersonId == id).ToList();
 

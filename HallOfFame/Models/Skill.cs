@@ -20,10 +20,8 @@ namespace HallOfFame.Models
         [Required]
         public byte Level { get; set; }
 
-        [ForeignKey("Person")]
-        public long PersonId { get; set; }
-
-        public Person Person { get; set; }
+        [ForeignKey("PersonId")]
+        public long? PersonId { get; set; }
 
         public override string ToString()
         {

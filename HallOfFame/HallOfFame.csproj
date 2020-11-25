@@ -10,6 +10,12 @@
     <Compile Remove="Migrations\20201118032712_AddedDbSkills.cs" />
     <Compile Remove="Migrations\20201118032712_AddedDbSkills.Designer.cs" />
     <Compile Remove="Migrations\20201118032926_Init.cs" />
+    <Compile Remove="Migrations\20201122083736_Init.cs" />
+    <Compile Remove="Migrations\20201125051114_Init.cs" />
+    <Compile Remove="Migrations\20201125051423_Init.cs" />
+    <Compile Remove="Migrations\20201125052728_Init.cs" />
+    <Compile Remove="Migrations\20201125055437_Init.cs" />
+    <Compile Remove="Migrations\20201125055749_Init.cs" />
   </ItemGroup>
 
   <ItemGroup>

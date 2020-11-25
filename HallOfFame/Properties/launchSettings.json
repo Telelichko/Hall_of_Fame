@@ -16,7 +16,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/persons",
+      "launchUrl": "api/v1/persons",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Debug"
       }
@@ -24,7 +24,7 @@
     "HallOfFame": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/persons",
+      "launchUrl": "api/v1/persons",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

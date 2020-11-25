@@ -27,13 +27,9 @@ namespace HallOfFame
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
-            var connectionInfo = new ConnectionInfo();
-            _config.GetSection(nameof(ConnectionInfo)).Bind(connectionInfo);
-
+        {
             services.AddDbContext<AppDatabaseContext>
-                (x => x.UseSqlServer(connectionInfo.MainConnection));
-
+                (x => x.UseSqlServer(_config.GetConnectionString("MainConnection")));
 
             var swaggerOptions = new SwaggerOptions();
             _config.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
@@ -74,7 +70,7 @@ namespace HallOfFame
                 });
             }
 
-            
+
 
             app.UseHttpsRedirection();
 

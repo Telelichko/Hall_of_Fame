@@ -29,7 +29,7 @@ namespace HallOfFame.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Level = table.Column<byte>(nullable: false),
-                    PersonId = table.Column<long>(nullable: false)
+                    PersonId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,7 @@ namespace HallOfFame.Migrations
                         column: x => x.PersonId,
                         principalTable: "Persons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

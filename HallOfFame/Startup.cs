@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using HallOfFame.Controllers;
 using Microsoft.AspNetCore.Builder;
@@ -54,25 +55,7 @@ namespace HallOfFame
             if (env.IsDevelopment())
             {           
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler(appBuilder =>
-                {
-                    appBuilder.Run(async c =>
-                    {
-                        var statusCode = c.Response.StatusCode;
-
-                        c.Response.Headers["Content-Type"] = "text/plain; charset=utf-8";
-
-                        await c.Response.WriteAsync(ErrorController.HttpStatusCodeHandler(statusCode));
-                    });
-                });
-            }
-
-
-
-            app.UseHttpsRedirection();
+            }            
 
             app.UseMvc();
 
@@ -88,7 +71,7 @@ namespace HallOfFame
             app.Run(async c =>
             {
                 c.Response.Headers["Content-Type"] = "text/plain; charset=utf-8";
-                await c.Response.WriteAsync(ErrorController.HttpStatusCodeHandler(200));
+                await c.Response.WriteAsync(Constants.Response.Response200);
             });
         }
     }

@@ -21,11 +21,6 @@ namespace HallOfFame.Models
 
         public ICollection<Skill> Skills { get; set; }
 
-        //public Person()
-        //{
-        //    Skills = new List<Skill>();
-        //}
-
         public override string ToString()
         {
             return Name;
